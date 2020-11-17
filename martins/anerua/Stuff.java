@@ -124,11 +124,22 @@ public class Stuff {
 				"906040200",
 				"030200041",
 				"040008500"
+		}; // very easy 
+		
+		String[] test2 = {"005300008",
+				"000000200",
+				"681200030",
+				"504030600",
+				"070420003",
+				"902010700",
+				"197800050",
+				"000000400",
+				"003100007"
 		};
 		
 		long startTime = System.nanoTime();
 		Stuff stuff = new Stuff();
-		String[] solution = stuff.DFS(test1);
+		String[] solution = stuff.DFS(test2);
 		long endTime = System.nanoTime();
 		long programTime = (endTime - startTime) / 1000000000;
 		System.out.println("Solution:");
