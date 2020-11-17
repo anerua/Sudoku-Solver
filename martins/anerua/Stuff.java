@@ -130,10 +130,12 @@ public class Stuff {
 				"008000091", "040260005" }; // very hard clean sudoku
 		String[] test4 = { "910000050", "003009021", "000402000", "080040902", "000070000", "504060010", "000506000",
 				"250700800", "030000095" }; // fiendish Sudoku ProX
+		String[] test5 = { "800000000", "003600000", "070090200", "050007000", "000045700", "000100030", "001000068",
+				"008500010", "090000400" };
 
 		long startTime = System.nanoTime();
 		Stuff stuff = new Stuff();
-		String[] solution = stuff.DFS(test4);
+		String[] solution = stuff.DFS(test5);
 		long endTime = System.nanoTime();
 		long programTime = (endTime - startTime) / 1000000000;
 		System.out.println("Solution:");
