@@ -37,22 +37,37 @@ public class Stuff {
 		// check row
 		String row = board[focusRow];
 		String focus = Character.toString(row.charAt(focusCol));
-		if (((row.split(focus).length) - 1) > 1) {
+		int rowCount = 0;
+		for (int i = 0; i < row.length(); i++) {
+			if (focus.equals(Character.toString(row.charAt(i)))) {
+				++rowCount;
+			}
+		}
+		if (rowCount > 1) {
 			return false;
 		}
 		
 		// check column
 		String col = colString(board, focusCol);
-		focus = Character.toString(col.charAt(focusRow));
-		if (((col.split(focus).length) - 1) > 1) {
+		int colCount = 0;
+		for (int i = 0; i < col.length(); i++) {
+			if (focus.equals(Character.toString(col.charAt(i)))) {
+				++colCount;
+			}
+		}
+		if (colCount > 1) {
 			return false;
 		}
 		
 		// check box
 		String box = boxString(board, focusRow, focusCol);
-		int boxIndex = (((focusRow % 3) + 1) * 3) + (focusCol % 3);
-		focus = Character.toString(box.charAt(boxIndex));
-		if (((box.split(focus).length) - 1) > 1) {
+		int boxCount = 0;
+		for (int i = 0; i < box.length(); i++) {
+			if (focus.equals(Character.toString(box.charAt(i)))) {
+				++boxCount;
+			}
+		}
+		if (boxCount > 1) {
 			return false;
 		}
 		
