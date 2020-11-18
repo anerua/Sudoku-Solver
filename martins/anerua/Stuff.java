@@ -1,5 +1,8 @@
 package martins.anerua;
 
+import java.util.HashSet;
+import java.util.Set;
+
 //======================================================================
 // Author:      Martins Anerua
 // Created:     17 November 2020 17:45
@@ -10,6 +13,9 @@ package martins.anerua;
 public class Stuff {
 
 	public String printBoard(String[] board) {
+		if (board.length == 1) {
+			return "Puzzle has no solution";
+		}
 		String output = "";
 		for (String row : board) {
 			for (int i = 0; i < row.length(); i++) {
@@ -120,6 +126,23 @@ public class Stuff {
 
 		return new String[] { "0" };
 	}
+	
+	public static boolean isSolvable(String[] board) {
+		Set<String> filledDigits = new HashSet<String>();
+		int filledSquares = 0;
+		for (String row : board) {
+			for (int i = 0; i < row.length(); i++) {
+				if (!Character.toString(row.charAt(i)).equals("0")) {
+					++filledSquares;
+					filledDigits.add(Character.toString(row.charAt(i)));
+				}
+				if (filledDigits.size() >= 8 && filledSquares >= 17) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 	public static void main(String[] args) {
 		String[] test1 = { "001900070", "780001090", "004030805", "060000009", "008020100", "100000060", "906040200",
@@ -133,16 +156,29 @@ public class Stuff {
 		String[] test5 = { "800000000", "003600000", "070090200", "050007000", "000045700", "000100030", "001000068",
 				"008500010", "090000400" }; // hardest Arto Inkala 1
 		String[] test6 = { "850002400", "720000009", "004000000", "000107002", "305000900", "040000000", "000080070",
-				"017000000", "000036040" };
-
-		long startTime = System.nanoTime();
-		Stuff stuff = new Stuff();
-		String[] solution = stuff.DFS(test6);
-		long endTime = System.nanoTime();
-		long programTime = (endTime - startTime) / 1000000000;
-		System.out.println("Solution:");
-		System.out.println(stuff.printBoard(solution));
-		System.out.println("Program took: " + programTime + " seconds.");
+				"017000000", "000036040" }; // hardest Arto Inkala 2006 from Peter Norvig
+		String[] test7 = { "005300000", "800000020", "070010500", "400005300", "010070006", "003200080", "060500009",
+				"004000030", "000009700" }; // hardest Arto Inkala 2010 from Peter Norvig
+		String[] test8 = { "000006000", "059000008", "200008000", "045000000", "003000000", "006003054", "000325006",
+				"000000000", "000000000" }; // Peter Norvig hardest
+		String[] test9 = { "000005080", "000601043", "000000000", "010500000", "000106000", "300000005", "530000061",
+				"000000004", "000000000" }; // Peter Norvig impossible (1439 seconds)
+		String[] test10 = { "000003540", "010060002", "309002007", "240030000", "006000300", "000010024", "700300406",
+				"500020090", "031500000" }; // Solo 3x3 Unreasonable
+		
+		String[] board = test10;
+		if (isSolvable(board)) {
+			long startTime = System.nanoTime();
+			Stuff stuff = new Stuff();
+			String[] solution = stuff.DFS(board);
+			long endTime = System.nanoTime();
+			float programTime = (float) (endTime - startTime) / 1000000000;
+			System.out.println("Solution:");
+			System.out.println(stuff.printBoard(solution));
+			System.out.println("Program took: " + programTime + " seconds.");
+		} else {
+			System.out.println("Puzzle either has duplicate solutions or is unsolvable");
+		}
 
 	}
 
