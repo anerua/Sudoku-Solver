@@ -23,17 +23,9 @@ public class Stuff {
 			output += "| ";
 			for (int j = 0; j < board[i].length(); j++) {
 				output += board[i].charAt(j) + " ";
-				if (j%3 == 2) {
-					output += "| ";
-				} else {
-					output += " ";
-				}
+				output += (j%3 == 2) ? "| " : " ";
 			}
-			if (i%3 == 2 && i != 8) {
-				output += "\n: ------- + ------- + ------- :\n";
-			} else {
-				output += "\n";
-			}
+			output += (i%3 == 2 && i != 8) ? "\n: ------- + ------- + ------- :\n" : "\n";
 		}
 		output += "*=============================*";
 		return output;
@@ -65,9 +57,8 @@ public class Stuff {
 		String focus = Character.toString(row.charAt(focusCol));
 		int rowCount = 0;
 		for (int i = 0; i < row.length(); i++) {
-			if (focus.equals(Character.toString(row.charAt(i)))) {
+			if (focus.equals(Character.toString(row.charAt(i))))
 				++rowCount;
-			}
 		}
 		if (rowCount > 1) {
 			return false;
@@ -77,9 +68,8 @@ public class Stuff {
 		String col = colString(board, focusCol);
 		int colCount = 0;
 		for (int i = 0; i < col.length(); i++) {
-			if (focus.equals(Character.toString(col.charAt(i)))) {
+			if (focus.equals(Character.toString(col.charAt(i))))
 				++colCount;
-			}
 		}
 		if (colCount > 1) {
 			return false;
@@ -89,9 +79,8 @@ public class Stuff {
 		String box = boxString(board, focusRow, focusCol);
 		int boxCount = 0;
 		for (int i = 0; i < box.length(); i++) {
-			if (focus.equals(Character.toString(box.charAt(i)))) {
+			if (focus.equals(Character.toString(box.charAt(i))))
 				++boxCount;
-			}
 		}
 		if (boxCount > 1) {
 			return false;
