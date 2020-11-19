@@ -42,30 +42,24 @@ public class Stuff {
 		long startT = System.nanoTime();
 		// check row
 		String row = board[focusRow];
-		for (int i = 0; i < row.length(); i++) {
-			if (focus.equals(Character.toString(row.charAt(i)))) {
-				long endT = System.nanoTime();
-				checkCT += (float) (endT - startT) / 1000000000;
-				return false;
-			}
+		if (row.contains(focus)) {
+			long endT = System.nanoTime();
+			checkCT += (float) (endT - startT) / 1000000000;
+			return false;
 		}
 		// check column
 		String col = colString(board, focusCol);
-		for (int i = 0; i < col.length(); i++) {
-			if (focus.equals(Character.toString(col.charAt(i)))) {
-				long endT = System.nanoTime();
-				checkCT += (float) (endT - startT) / 1000000000;
-				return false;
-			}
+		if (col.contains(focus)) {
+			long endT = System.nanoTime();
+			checkCT += (float) (endT - startT) / 1000000000;
+			return false;
 		}
 		// check box
 		String box = boxString(board, focusRow, focusCol);
-		for (int i = 0; i < box.length(); i++) {
-			if (focus.equals(Character.toString(box.charAt(i)))) {
-				long endT = System.nanoTime();
-				checkCT += (float) (endT - startT) / 1000000000;
-				return false;
-			}
+		if (box.contains(focus)) {
+			long endT = System.nanoTime();
+			checkCT += (float) (endT - startT) / 1000000000;
+			return false;
 		}
 		return true; // puzzle satisfies constraints
 	}

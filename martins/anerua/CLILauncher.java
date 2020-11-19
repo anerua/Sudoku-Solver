@@ -83,14 +83,17 @@ public class CLILauncher {
 				"017000000", "000036040" }; // hardest Arto Inkala 2006 from Peter Norvig
 		String[] test7 = { "005300000", "800000020", "070010500", "400005300", "010070006", "003200080", "060500009",
 				"004000030", "000009700" }; // hardest Arto Inkala 2010 from Peter Norvig
+		String[] test8 = { "000006000", "059000008", "200008000", "045000000", "003000000", "006003054", "000325006",
+				"000000000", "000000000" }; // Peter Norvig hardest
 		String[] test10 = { "000003540", "010060002", "309002007", "240030000", "006000300", "000010024", "700300406",
 				"500020090", "031500000" }; // Solo 3x3 Unreasonable
 		
 		startMessage();
 //		String[] board = getInput();
-		String[] board = test10;
+		String[] board = test6;
 		System.out.println("Verifying...");
-		if (!Stuff.isSolvable(board)) {
+//		if (!Stuff.isSolvable(board)) {
+		if (true) {
 			System.out.println("Solving...");
 			long startTime = System.nanoTime();
 			Stuff stuff = new Stuff();
