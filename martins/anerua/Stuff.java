@@ -11,11 +11,8 @@ import java.util.Set;
 //=======================================================================
 
 public class Stuff {
-	
-	float boxST = 0, colST = 0, checkCT = 0, writeCT = 0;
 
 	private String boxString(String[] board, int focusRow, int focusCol) {
-		long startT = System.nanoTime();
 		String box = "";
 		int initRow = (focusRow / 3) * 3;
 		int initCol = (focusCol / 3) * 3;
@@ -23,54 +20,39 @@ public class Stuff {
 			for (int j = initCol; j < initCol + 3; j++)
 				box += board[i].charAt(j);
 		}
-		long endT = System.nanoTime();
-		boxST += (float) (endT - startT) / 1000000000;
 		return box;
 	}
 
 	private String colString(String[] board, int focusCol) {
-		long startT = System.nanoTime();
 		String col = "";
 		for (String row : board)
 			col += row.charAt(focusCol);
-		long endT = System.nanoTime();
-		colST += (float) (endT - startT) / 1000000000;
 		return col;
 	}
 	
 	private boolean checkConstraint(String[] board, String focus, int focusRow, int focusCol) {
-		long startT = System.nanoTime();
 		// check row
 		String row = board[focusRow];
 		if (row.contains(focus)) {
-			long endT = System.nanoTime();
-			checkCT += (float) (endT - startT) / 1000000000;
 			return false;
 		}
 		// check column
 		String col = colString(board, focusCol);
 		if (col.contains(focus)) {
-			long endT = System.nanoTime();
-			checkCT += (float) (endT - startT) / 1000000000;
 			return false;
 		}
 		// check box
 		String box = boxString(board, focusRow, focusCol);
 		if (box.contains(focus)) {
-			long endT = System.nanoTime();
-			checkCT += (float) (endT - startT) / 1000000000;
 			return false;
 		}
 		return true; // puzzle satisfies constraints
 	}
 
 	private String writeCell(String row, String candidate, int focusCol) {
-		long startT = System.nanoTime();
 		String newRow = "";
 		for (int i = 0; i < row.length(); i++)
 			newRow += (i == focusCol) ? candidate : row.charAt(i);
-		long endT = System.nanoTime();
-		writeCT += (float) (endT - startT) / 1000000000; 
 		return newRow;
 	}
 
@@ -100,15 +82,50 @@ public class Stuff {
 		return new String[] { "0" };
 	}
 	
+	private static boolean verifyBoard(String[] board, int focusRow, int focusCol) {
+		// check row
+		String row = board[focusRow];
+		String focus = Character.toString(row.charAt(focusCol));
+		int rowCount = 0;
+		for (int i = 0; i < row.length(); i++) {
+			if (focus.equals(Character.toString(row.charAt(i))))
+				++rowCount;
+		}
+		if (rowCount > 1) {
+			return false;
+		}
+		// check column
+		Stuff stuff = new Stuff();
+		String col = stuff.colString(board, focusCol);
+		int colCount = 0;
+		for (int i = 0; i < col.length(); i++) {
+			if (focus.equals(Character.toString(col.charAt(i))))
+				++colCount;
+		}
+		if (colCount > 1) {
+			return false;
+		}
+		// check box
+		String box = stuff.boxString(board, focusRow, focusCol);
+		int boxCount = 0;
+		for (int i = 0; i < box.length(); i++) {
+			if (focus.equals(Character.toString(box.charAt(i))))
+				++boxCount;
+		}
+		if (boxCount > 1) {
+			return false;
+		}
+		return true; // puzzle satisfies constraints
+	}
+	
 	public static boolean isSolvable(String[] board) {
 		Set<String> filledDigits = new HashSet<String>();
 		int filledSquares = 0;
-		Stuff st = new Stuff();
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length(); j++) {
 				String focus = Character.toString(board[i].charAt(j));
 				if (!focus.equals("0")) {
-					if (!st.checkConstraint(board, focus, i, j)) {
+					if (!verifyBoard(board, i, j)) {
 						return false;
 					}
 					++filledSquares;
