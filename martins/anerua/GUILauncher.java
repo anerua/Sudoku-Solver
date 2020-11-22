@@ -10,15 +10,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
+import java.awt.Toolkit;
 
 public class GUILauncher {
 
@@ -72,27 +71,30 @@ public class GUILauncher {
 	 */
 	private void initialize() {
 		frmSudokuSolver = new JFrame();
+		frmSudokuSolver.setIconImage(Toolkit.getDefaultToolkit().getImage(GUILauncher.class.getResource("/martins/anerua/icon.png")));
 		frmSudokuSolver.setResizable(false);
 		frmSudokuSolver.setTitle("Sudoku Solver");
-		frmSudokuSolver.setBounds(100, 100, 450, 380);
+		frmSudokuSolver.setBounds(100, 100, 470, 360);
 		frmSudokuSolver.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmSudokuSolver.setJMenuBar(menuBar);
 		
-		JMenu mnHelp = new JMenu("Help");
-		menuBar.add(mnHelp);
-		
-		JMenuItem mntmHowToUse = new JMenuItem("How to use");
-		mnHelp.add(mntmHowToUse);
-		
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mnHelp.add(mntmAbout);
+		JMenuItem menuAbout = new JMenuItem("About");
+		menuAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String text = "Sudoku Solver v1.0\n\nMIT License\nCopyright (c) 2020 Martins Anerua" 
+						+ "\n\ngithub.com/anerua/Stuff"
+						+ "\n\nIcon credit:\nicons8.com/set/sudoku";
+				messageField.setText(text);
+			}
+		});
+		menuBar.add(menuAbout);
 		frmSudokuSolver.getContentPane().setLayout(null);
 		
 		JPanel gridPanel = new JPanel();
 		gridPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		gridPanel.setBounds(12, 36, 256, 256);
+		gridPanel.setBounds(12, 12, 256, 256);
 		frmSudokuSolver.getContentPane().add(gridPanel);
 		gridPanel.setLayout(new GridLayout(9, 9, 0, 0));
 		
@@ -106,7 +108,7 @@ public class GUILauncher {
 		}
 		
 		JPanel IOPanel = new JPanel();
-		IOPanel.setBounds(291, 36, 135, 256);
+		IOPanel.setBounds(291, 12, 167, 256);
 		frmSudokuSolver.getContentPane().add(IOPanel);
 		IOPanel.setLayout(null);
 		
@@ -129,13 +131,12 @@ public class GUILauncher {
 							long startTime = System.nanoTime();
 							String[] solution = solver(board);
 							for (int i = 0; i < 9; i++) {
-								for (int j = 0; j < 9; j++) {
+								for (int j = 0; j < 9; j++)
 									cells[i][j].setText(Character.toString(solution[i].charAt(j)));
-								}
 							}
 							long endTime = System.nanoTime();
 							float programTime = (float) (endTime - startTime) / 1000000000;
-							String timeMessage = "Done.\nTook " + programTime + " seconds";
+							String timeMessage = "Done.\n\nTook " + programTime + " seconds";
 							messageField.setText(timeMessage);
 						} catch (IllegalArgumentException e) {
 							messageField.setText(e.getMessage());
@@ -145,31 +146,29 @@ public class GUILauncher {
 
 			}
 		});
-		btnSolve.setBounds(12, 227, 117, 25);
+		btnSolve.setBounds(26, 225, 117, 25);
 		IOPanel.add(btnSolve);
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				for (int i = 0; i < 9; i++) {
-					for (int j = 0; j < 9; j++) {
+					for (int j = 0; j < 9; j++)
 						cells[i][j].setText(" ");
-					}
 				}
 				messageField.setText("");
 			}
 		});
-		btnClear.setBounds(12, 190, 117, 25);
+		btnClear.setBounds(26, 188, 117, 25);
 		IOPanel.add(btnClear);
 		
 		messageField = new JTextPane();
-		messageField.setBorder(new TitledBorder(null, "Status", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
-//		messageField.setBackground(Color.LIGHT_GRAY);
+		messageField.setBorder(new TitledBorder(null, "Output", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		messageField.setOpaque(false);
-		messageField.setFont(new Font("Dialog", Font.PLAIN, 12));
+		messageField.setFont(new Font("Dialog", Font.PLAIN, 11));
 		messageField.setFocusable(false);
 		messageField.setEditable(false);
-		messageField.setBounds(12, 0, 117, 120);
+		messageField.setBounds(0, 0, 167, 176);
 		IOPanel.add(messageField);
 	}
 }

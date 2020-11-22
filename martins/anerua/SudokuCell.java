@@ -27,17 +27,32 @@ public class SudokuCell extends JLabel {
 			top = 3;
 			bottom = 1;
 			break;
-		case 1, 4, 7:
+		case 1:
 			top = bottom = 1;
 			break;
-		case 2, 5:
+		case 2:
 			top = 1;
 			bottom = 2;
 			break;
-		case 3, 6:
+		case 3:
 			top = 2;
 			bottom = 1;
 			break;
+		case 4:
+			top = bottom = 1;
+			break;
+		case 5:
+			top = 1;
+			bottom = 2;
+			break;
+		case 6:
+			top = 2;
+			bottom = 1;
+			break;
+		case 7:
+			top = bottom = 1;
+			break;
+		
 		case 8:
 			top = 1;
 			bottom = 3;
@@ -49,16 +64,30 @@ public class SudokuCell extends JLabel {
 			left = 3;
 			right = 1;
 			break;
-		case 1, 4, 7:
+		case 1:
 			left = right = 1;
 			break;
-		case 2, 5:
+		case 2:
 			left = 1;
 			right = 2;
 			break;
-		case 3, 6:
+		case 3:
 			left = 2;
 			right = 1;
+			break;
+		case 4:
+			left = right = 1;
+			break;
+		case 5:
+			left = 1;
+			right = 2;
+			break;
+		case 6:
+			left = 2;
+			right = 1;
+			break;
+		case 7:
+			left = right = 1;
 			break;
 		case 8:
 			left = 1;
@@ -70,7 +99,6 @@ public class SudokuCell extends JLabel {
 		this.setText(text);
 		this.setHorizontalAlignment(SwingConstants.CENTER);
 		this.setFocusable(true);
-		this.setRequestFocusEnabled(true);
 		this.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				requestFocus();
@@ -87,22 +115,18 @@ public class SudokuCell extends JLabel {
 			}
 		});
 		this.addFocusListener(new FocusListener() {
-
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				setOpaque(true);
 				setBackground(new Color(211,211,211));
 				repaint();
-				
 			}
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				setOpaque(false);
-				repaint();
-				
+				repaint();	
 			}
-			
 		});
 	}
 }
