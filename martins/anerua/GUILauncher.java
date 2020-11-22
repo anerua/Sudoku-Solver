@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.TitledBorder;
 
 public class GUILauncher {
 
@@ -97,7 +99,7 @@ public class GUILauncher {
 		cells = new JLabel[9][9];
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				SudokuCell cell = new SudokuCell(" ");
+				SudokuCell cell = new SudokuCell(" ", i, j);
 				gridPanel.add(cell);
 				cells[i][j] = cell;
 			}
@@ -133,7 +135,7 @@ public class GUILauncher {
 							}
 							long endTime = System.nanoTime();
 							float programTime = (float) (endTime - startTime) / 1000000000;
-							String timeMessage = "Done. Took " + programTime + " seconds";
+							String timeMessage = "Done.\nTook " + programTime + " seconds";
 							messageField.setText(timeMessage);
 						} catch (IllegalArgumentException e) {
 							messageField.setText(e.getMessage());
@@ -161,10 +163,13 @@ public class GUILauncher {
 		IOPanel.add(btnClear);
 		
 		messageField = new JTextPane();
+		messageField.setBorder(new TitledBorder(null, "Status", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
+//		messageField.setBackground(Color.LIGHT_GRAY);
+		messageField.setOpaque(false);
 		messageField.setFont(new Font("Dialog", Font.PLAIN, 12));
 		messageField.setFocusable(false);
 		messageField.setEditable(false);
-		messageField.setBounds(12, 12, 114, 120);
+		messageField.setBounds(12, 0, 117, 120);
 		IOPanel.add(messageField);
 	}
 }
